@@ -1,4 +1,4 @@
-# App03-Grim-rio-de-Hogwarts
+# App03-Grimorio-de-Hogwarts
 
 Projeto desenvolvido por
 
