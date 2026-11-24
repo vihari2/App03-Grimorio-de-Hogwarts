@@ -87,7 +87,7 @@ class CharacterSearchActivity : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val response = RetrofitClient.hogwartsApi.searchCharacters(trimmedQuery)
+                val response = RetrofitClient.hogwartsApi.getCharacters(trimmedQuery)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
                         val character: CharactersData? = response.body()?.getFirstCharacter()

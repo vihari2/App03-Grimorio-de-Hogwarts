@@ -3,17 +3,11 @@ package com.example.app3
 import com.google.gson.annotations.SerializedName
 
 data class CreatureResponse(
-    @SerializedName("data") val data: CreatureItem? = null
+    @SerializedName("data") val data: CreaturesData? = null
 )
 
 data class CreatureListResponse(
-    @SerializedName("data") val data: List<CreatureItem>? = null
-)
-
-data class CreatureItem(
-    @SerializedName("id") val id: String? = null,
-    @SerializedName("type") val type: String? = null,
-    @SerializedName("attributes") val attributes: CreaturesData? = null
+    @SerializedName("data") val data: List<CreaturesData>? = null
 )
 
 data class CreaturesData(
@@ -25,9 +19,9 @@ data class CreaturesData(
 )
 
 fun CreatureListResponse.getFirstCreature(): CreaturesData? {
-    return data?.firstOrNull()?.attributes
+    return data?.firstOrNull()
 }
 
 fun CreatureResponse.toCreatureData(): CreaturesData? {
-    return data?.attributes
+    return data
 }

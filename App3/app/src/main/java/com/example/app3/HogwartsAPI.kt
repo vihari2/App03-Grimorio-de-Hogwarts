@@ -8,6 +8,6 @@ interface HogwartsAPI {
     @GET("v1/characters")
     suspend fun getCharacters(@Query("filter[name_cont]") name: String): Response<CharacterListResponse>
 
-    @GET("v1/creatures")
-    suspend fun getCreatures(@Query("filter[name_cont]") name: String): Response<CreatureListResponse>
+    @GET("https://hogwarts-api.com/api/creatures")
+    suspend fun getCreatures(@Query("search") name: String): Response<CreatureListResponse>
 }
