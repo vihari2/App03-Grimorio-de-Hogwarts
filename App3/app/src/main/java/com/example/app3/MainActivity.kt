@@ -1,5 +1,6 @@
 package com.example.app3
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -30,7 +31,13 @@ class MainActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val paddingPx = (20 * resources.displayMetrics.density).toInt()
+            v.setPadding(
+                systemBars.left + paddingPx,
+                systemBars.top + paddingPx,
+                systemBars.right + paddingPx,
+                systemBars.bottom + paddingPx,
+            )
             insets
         }
 
@@ -40,48 +47,12 @@ class MainActivity : AppCompatActivity() {
         tvStatus = findViewById(R.id.tvStatus)
 
         btnPersonagem.setOnClickListener {
-            carregarPersonagem()
+            val intent = Intent(this, CharacterSearchActivity::class.java)
+            startActivity(intent)
         }
 
         btnCriatura.setOnClickListener {
             carregarCriatura()
-        }
-    }
-
-    private fun carregarPersonagem() {
-        showLoading()
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                val response = RetrofitClient.hogwartsApi.getCharacters()
-                withContext(Dispatchers.Main) {
-                    hideLoading()
-                    if (response.isSuccessful) {
-                        val character: CharactersData? = response.body()?.getFirstCharacter()
-                        if (character != null) {
-                            showStatus("Personagem: ${character.name ?: "Sem nome"}")
-                        } else {
-                            showStatus("Nenhum personagem encontrado")
-                        }
-                    } else {
-                        showStatus("Erro no servidor (código ${response.code()}). Tente novamente.")
-                    }
-                }
-            } catch (e: UnknownHostException) {
-                withContext(Dispatchers.Main) {
-                    hideLoading()
-                    showStatus("Sem conexão com a internet. Tente novamente.")
-                }
-            } catch (e: IOException) {
-                withContext(Dispatchers.Main) {
-                    hideLoading()
-                    showStatus("Sem conexão com a internet. Tente novamente.")
-                }
-            } catch (e: Exception) {
-                withContext(Dispatchers.Main) {
-                    hideLoading()
-                    showStatus("Erro inesperado: ${e.localizedMessage ?: "Tente novamente."}")
-                }
-            }
         }
     }
 
@@ -103,12 +74,12 @@ class MainActivity : AppCompatActivity() {
                         showStatus("Erro no servidor (código ${response.code()}). Tente novamente.")
                     }
                 }
-            } catch (e: UnknownHostException) {
+            } catch (_: UnknownHostException) {
                 withContext(Dispatchers.Main) {
                     hideLoading()
                     showStatus("Sem conexão com a internet. Tente novamente.")
                 }
-            } catch (e: IOException) {
+            } catch (_: IOException) {
                 withContext(Dispatchers.Main) {
                     hideLoading()
                     showStatus("Sem conexão com a internet. Tente novamente.")
