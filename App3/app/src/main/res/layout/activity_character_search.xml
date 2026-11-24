@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/hogwarts_background"
+    tools:context=".CharacterSearchActivity">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Busca de Personagem"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="@color/hogwarts_text_title"
+        android:gravity="center"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintWidth_max="480dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Consulte bruxos e bruxas de Hogwarts"
+        android:textSize="14sp"
+        android:textColor="@color/hogwarts_text_subtitle"
+        android:gravity="center"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintWidth_max="480dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        android:layout_marginTop="6dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilSearchName"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nome do personagem"
+        android:layout_marginTop="28dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintWidth_max="480dp"
+        app:boxCornerRadiusBottomEnd="12dp"
+        app:boxCornerRadiusBottomStart="12dp"
+        app:boxCornerRadiusTopEnd="12dp"
+        app:boxCornerRadiusTopStart="12dp"
+        app:boxStrokeColor="@color/hogwarts_red"
+        app:hintTextColor="@color/hogwarts_red"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSubtitle">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSearchName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:imeOptions="actionSearch"
+            android:singleLine="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSearch"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:text="Buscar"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/hogwarts_red"
+        android:textColor="@color/white"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintWidth_max="480dp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilSearchName" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/hogwarts_red"
+        android:visibility="gone"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSearch"
+        tools:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/layoutDetails"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="28dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintWidth_max="480dp"
+        android:padding="20dp"
+        android:background="@drawable/bg_card"
+        android:elevation="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBar"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tvCharacterName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/hogwarts_text_title"
+            tools:text="Nome: Harry Potter" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/hogwarts_gold"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/tvCharacterSpecies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/hogwarts_text_body"
+            tools:text="Espécie: Humano" />
+
+        <TextView
+            android:id="@+id/tvCharacterHouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="@color/hogwarts_text_body"
+            android:layout_marginTop="8dp"
+            tools:text="Casa: Gryffindor" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvStatusMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="#B71C1C"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintWidth_max="480dp"
+        android:padding="16dp"
+        android:background="@drawable/bg_status_message"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutDetails"
+        tools:text="Nenhum personagem encontrado"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
