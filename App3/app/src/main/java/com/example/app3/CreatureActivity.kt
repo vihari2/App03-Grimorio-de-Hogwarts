@@ -21,6 +21,7 @@ class CreatureActivity : AppCompatActivity() {
 
     private lateinit var etSearch: EditText
     private lateinit var btnSearch: Button
+    private lateinit var btnBack: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var llResult: LinearLayout
     private lateinit var tvError: TextView
@@ -33,6 +34,7 @@ class CreatureActivity : AppCompatActivity() {
 
         etSearch = findViewById(R.id.etSearch)
         btnSearch = findViewById(R.id.btnSearch)
+        btnBack = findViewById(R.id.btnBack)
         progressBar = findViewById(R.id.progressBar)
         llResult = findViewById(R.id.llResult)
         tvError = findViewById(R.id.tvError)
@@ -54,6 +56,10 @@ class CreatureActivity : AppCompatActivity() {
             etSearch.error = null
             buscarCriatura(query)
         }
+
+        btnBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun buscarCriatura(query: String) {
@@ -63,15 +69,13 @@ class CreatureActivity : AppCompatActivity() {
                 val response = RetrofitClient.hogwartsApi.getCreatures(query)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
-                        val creature: CreaturesData? = response.body()?.getFirstCreature()
+                        val creature: CreaturesData? = response.body()?.getBestMatchCreature(query)
                         if (creature != null) {
                             showCreature(creature)
                         } else {
-                            hideLoading()
                             showCreatureNotFound()
                         }
                     } else if (response.code() == 404) {
-                        hideLoading()
                         showCreatureNotFound()
                     } else {
                         hideLoading()
@@ -102,44 +106,53 @@ class CreatureActivity : AppCompatActivity() {
         llResult.visibility = View.GONE
         tvError.visibility = View.GONE
         btnSearch.isEnabled = false
+        btnBack.isEnabled = false
     }
 
     private fun hideLoading() {
         progressBar.visibility = View.GONE
         btnSearch.isEnabled = true
+        btnBack.isEnabled = true
     }
 
     private fun showError(mensagem: String) {
+        llResult.visibility = View.GONE
         tvError.visibility = View.VISIBLE
         tvError.text = mensagem
     }
 
     private fun showCreatureNotFound() {
+        hideLoading()
+        tvError.visibility = View.GONE
         llResult.visibility = View.VISIBLE
         tvName.text = "Nenhuma criatura encontrada"
         ivCreature.setImageResource(R.drawable.placeholder_criatura)
-        tvError.visibility = View.GONE
     }
 
-    private fun showCreature(creature: CreaturesData) {
+    private fun showCreature(creaturesData: CreaturesData) {
+        tvError.visibility = View.GONE
         llResult.visibility = View.VISIBLE
-        tvName.text = "Nome: ${creature.name ?: "Não informado"}"
+        tvName.text = "Nome: ${creaturesData.name ?: "Não informado"}"
         
-        // Progress bar continues while image loads
-        val imageUrl = creature.image
+        val imageUrl = creaturesData.image
         if (imageUrl.isNullOrEmpty()) {
             hideLoading()
             ivCreature.setImageResource(R.drawable.placeholder_criatura) 
             tvError.visibility = View.VISIBLE
             tvError.text = "Imagem indisponível"
         } else {
+            // Keep progress bar active while image downloads
+            progressBar.visibility = View.VISIBLE
+            btnSearch.isEnabled = false
+            btnBack.isEnabled = false
+
             ivCreature.load(imageUrl) {
                 crossfade(true)
                 placeholder(R.drawable.placeholder_criatura)
                 error(R.drawable.placeholder_criatura)
                 listener(
                     onSuccess = { _, _ -> 
-                        hideLoading() 
+                        hideLoading()
                         tvError.visibility = View.GONE
                     },
                     onError = { _, _ -> 

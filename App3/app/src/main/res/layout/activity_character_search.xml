@@ -87,6 +87,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tilSearchName" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBack"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="0dp"
+        android:layout_height="54dp"
+        android:text="Voltar"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/hogwarts_red"
+        app:strokeColor="@color/hogwarts_red"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintWidth_max="480dp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSearch" />
+
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
@@ -97,7 +115,7 @@
         android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnSearch"
+        app:layout_constraintTop_toBottomOf="@id/btnBack"
         tools:visibility="visible" />
 
     <LinearLayout

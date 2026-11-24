@@ -19,6 +19,7 @@ class CharacterActivity : AppCompatActivity() {
 
     private lateinit var etSearch: EditText
     private lateinit var btnSearch: Button
+    private lateinit var btnBack: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var llResult: LinearLayout
     private lateinit var tvError: TextView
@@ -30,10 +31,9 @@ class CharacterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_character)
         
-        // Portrait lock requested in spec can also be added via manifest, but we do it there.
-
         etSearch = findViewById(R.id.etSearch)
         btnSearch = findViewById(R.id.btnSearch)
+        btnBack = findViewById(R.id.btnBack)
         progressBar = findViewById(R.id.progressBar)
         llResult = findViewById(R.id.llResult)
         tvError = findViewById(R.id.tvError)
@@ -56,6 +56,10 @@ class CharacterActivity : AppCompatActivity() {
             etSearch.error = null
             buscarPersonagem(query)
         }
+
+        btnBack.setOnClickListener {
+            finish()
+        }
     }
 
     private fun buscarPersonagem(query: String) {
@@ -66,7 +70,7 @@ class CharacterActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     hideLoading()
                     if (response.isSuccessful) {
-                        val character: CharactersData? = response.body()?.getFirstCharacter()
+                        val character: CharactersData? = response.body()?.getBestMatchCharacter(query)
                         if (character != null) {
                             showCharacter(character)
                         } else {
@@ -100,11 +104,13 @@ class CharacterActivity : AppCompatActivity() {
         llResult.visibility = View.GONE
         tvError.visibility = View.GONE
         btnSearch.isEnabled = false
+        btnBack.isEnabled = false
     }
 
     private fun hideLoading() {
         progressBar.visibility = View.GONE
         btnSearch.isEnabled = true
+        btnBack.isEnabled = true
     }
 
     private fun showError(mensagem: String) {

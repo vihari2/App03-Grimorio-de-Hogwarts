@@ -5,9 +5,17 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface HogwartsAPI {
-    @GET("v1/characters")
-    suspend fun getCharacters(@Query("filter[name_cont]") name: String): Response<CharacterListResponse>
+    @GET("api/characters")
+    suspend fun getCharacters(
+        @Query("search") search: String,
+        @Query("page_size") pageSize: Int? = null,
+        @Query("page") page: Int? = null
+    ): Response<CharacterListResponse>
 
-    @GET("https://hogwarts-api.com/api/creatures")
-    suspend fun getCreatures(@Query("search") name: String): Response<CreatureListResponse>
+    @GET("api/creatures")
+    suspend fun getCreatures(
+        @Query("search") search: String,
+        @Query("page_size") pageSize: Int? = null,
+        @Query("page") page: Int? = null
+    ): Response<CreatureListResponse>
 }

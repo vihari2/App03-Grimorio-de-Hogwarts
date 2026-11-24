@@ -4,7 +4,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "https://api.potterdb.com/"
+    private const val BASE_URL = "https://hogwarts-api.com/"
 
     val hogwartsApi: HogwartsAPI by lazy {
         Retrofit.Builder()

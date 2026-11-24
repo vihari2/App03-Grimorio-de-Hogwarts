@@ -24,6 +24,7 @@ class CharacterSearchActivity : AppCompatActivity() {
 
     private lateinit var etSearchName: EditText
     private lateinit var btnSearch: Button
+    private lateinit var btnBack: Button
     private lateinit var progressBar: ProgressBar
     private lateinit var layoutDetails: LinearLayout
     private lateinit var tvCharacterName: TextView
@@ -50,6 +51,7 @@ class CharacterSearchActivity : AppCompatActivity() {
 
         etSearchName = findViewById(R.id.etSearchName)
         btnSearch = findViewById(R.id.btnSearch)
+        btnBack = findViewById(R.id.btnBack)
         progressBar = findViewById(R.id.progressBar)
         layoutDetails = findViewById(R.id.layoutDetails)
         tvCharacterName = findViewById(R.id.tvCharacterName)
@@ -59,6 +61,10 @@ class CharacterSearchActivity : AppCompatActivity() {
 
         btnSearch.setOnClickListener {
             executarBusca()
+        }
+
+        btnBack.setOnClickListener {
+            finish()
         }
 
         etSearchName.setOnEditorActionListener { _, actionId, _ ->
@@ -90,7 +96,7 @@ class CharacterSearchActivity : AppCompatActivity() {
                 val response = RetrofitClient.hogwartsApi.getCharacters(trimmedQuery)
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful) {
-                        val character: CharactersData? = response.body()?.getFirstCharacter()
+                        val character: CharactersData? = response.body()?.getBestMatchCharacter(trimmedQuery)
                         if (character != null) {
                             exibirDetalhes(character)
                         } else {
@@ -123,6 +129,7 @@ class CharacterSearchActivity : AppCompatActivity() {
     private fun iniciarCarregamento() {
         progressBar.visibility = View.VISIBLE
         btnSearch.isEnabled = false
+        btnBack.isEnabled = false
         layoutDetails.visibility = View.GONE
         tvStatusMessage.visibility = View.GONE
     }
@@ -130,6 +137,7 @@ class CharacterSearchActivity : AppCompatActivity() {
     private fun finalizarCarregamento() {
         progressBar.visibility = View.GONE
         btnSearch.isEnabled = true
+        btnBack.isEnabled = true
     }
 
     private fun exibirDetalhes(character: CharactersData) {
